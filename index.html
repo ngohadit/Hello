@@ -1,121 +1,213 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wild West Slot</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VƯƠNG 79 CLUB</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
-    }
-    body {
       margin: 0;
-      background: url('https://i.postimg.cc/zvYGwVbz/pngtree-full-casino-on-a-cruise-ship-picture-image-2478882.png') no-repeat center center;
-      background-size: cover;
+      padding: 0;
+    }
+
+    body {
       font-family: 'Playfair Display', serif;
-      color: #fff;
+      background: url('https://i.postimg.cc/zvYGwVbz/pngtree-full-casino-on-a-cruise-ship-picture-image-2478882.png') no-repeat center center/cover;
+      height: 100vh;
+      overflow: hidden;
     }
-    .game-container {
-      width: 100%;
-      max-width: 480px;
-      margin: auto;
-      padding-top: 40px;
-    }
-    .top-panel {
-      background: #5e3e1b;
-      border: 3px solid #c59c66;
-      border-radius: 12px;
+
+    .header {
       text-align: center;
-      padding: 10px;
-      font-size: 20px;
-      box-shadow: 0 0 10px gold;
+      color: gold;
+      font-size: 28px;
+      font-weight: bold;
+      text-shadow: 2px 2px 0 black;
+      padding: 10px 0;
+    }
+
+    .sub-header {
+      text-align: center;
+      color: gold;
+      font-size: 16px;
+      text-shadow: 1px 1px 0 black;
       margin-bottom: 10px;
     }
-    .slot-reels {
-      background: #3c2614;
-      border-radius: 8px;
-      padding: 10px;
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
-      min-height: 220px;
-      box-shadow: inset 0 0 10px #000;
-    }
-    .slot-item {
-      background: #fff2d5;
-      border: 2px solid #a06700;
-      border-radius: 6px;
+
+    .mini-game-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 70px;
+      height: 70px;
+      transform: translate(-50%, -50%);
+      background: conic-gradient(orange 0deg 45deg, black 45deg 90deg, orange 90deg 135deg, black 135deg 180deg, orange 180deg 225deg, black 225deg 270deg, orange 270deg 315deg, black 315deg 360deg);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 10px;
+      color: white;
       text-align: center;
-      padding: 15px 0;
-      color: #3c2614;
-      font-weight: bold;
-      font-size: 24px;
+      line-height: 1.2;
+      cursor: pointer;
+      user-select: none;
+      border: 2px solid gold;
+      font-family: 'Playfair Display', serif;
     }
-    .bottom-panel {
-      background: #5e3e1b;
-      border-radius: 8px;
+
+    .mini-game-popup {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: gold;
+      border: 3px solid black;
+      border-radius: 10px;
+      padding: 20px;
+      display: none;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .mini-game-popup h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: black;
+    }
+
+    .game-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .game-buttons button {
+      background: black;
+      color: gold;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .bottom-section {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .money-row {
       display: flex;
       justify-content: space-around;
-      align-items: center;
-      padding: 10px;
-      box-shadow: 0 0 10px #000 inset;
-      font-size: 16px;
+      width: 100%;
     }
-    .btn-circle {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: #c59c66;
-      border: 2px solid #000;
+
+    .money {
+      color: white;
+      font-weight: bold;
+      text-shadow: 1px 1px 0 black;
+    }
+
+    .control-row {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      align-items: center;
+    }
+
+    .spin-btn, .auto-btn {
+      background: gold;
+      color: black;
+      border: 2px solid black;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      box-shadow: 0 0 10px gold;
+      gap: 4px;
     }
-    .btn-yellow {
-      background: #ffcc00;
-      color: #000;
-      border: 2px solid #000;
-      font-weight: bold;
-      padding: 4px 8px;
-      border-radius: 4px;
+
+    .spin-btn svg {
+      width: 16px;
+      height: 16px;
     }
   </style>
 </head>
 <body>
+  <div class="header">VƯƠNG 79 CLUB</div>
+  <div class="sub-header">Chào mừng đến với thế giới 79 club</div>
 
-  <div class="game-container">
-    <div class="top-panel">
-      x5 | x12 | x1024 | x1 | x2 | x4
-    </div>
+  <!-- Nút mini game -->
+  <div class="mini-game-btn" id="miniGameBtn">Mini<br>Game</div>
 
-    <div class="slot-reels">
-      <div class="slot-item">A</div>
-      <div class="slot-item">Q</div>
-      <div class="slot-item">K</div>
-      <div class="slot-item">J</div>
-      <div class="slot-item">A</div>
-      <div class="slot-item">Q</div>
-      <div class="slot-item">K</div>
-      <div class="slot-item">J</div>
-      <div class="slot-item">A</div>
-      <div class="slot-item">Q</div>
-    </div>
-
-    <div class="top-panel" style="margin-top: 10px;">
-      Tính năng mua | Vòng quay miễn phí
-    </div>
-
-    <div class="bottom-panel">
-      <div class="btn-yellow">₫0.16</div>
-      <div class="btn-yellow">₫1.20</div>
-      <div class="btn-yellow">₫0.00</div>
-      <div class="btn-circle">⟳</div>
-      <div class="btn-yellow">AUTO</div>
+  <!-- Popup mini game -->
+  <div class="mini-game-popup" id="popup">
+    <h2>Chọn Mini Game</h2>
+    <div class="game-buttons">
+      <button>Tài Xỉu</button>
+      <button>Xóc Đĩa</button>
+      <button>Bầu Cua</button>
     </div>
   </div>
 
+  <!-- Bottom game control -->
+  <div class="bottom-section">
+    <div class="money-row">
+      <div class="money">0.16</div>
+      <div class="money">1.20</div>
+      <div class="money">0.00</div>
+    </div>
+    <div class="control-row">
+      <button class="spin-btn">
+        <!-- Icon 2 mũi tên vòng -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="black"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 6A8 8 0 006.582 9M20 20v-5h-.581M4.063 15A8 8 0 0017.418 6"/></svg>
+        QUAY
+      </button>
+      <button class="auto-btn">AUTO</button>
+    </div>
+  </div>
+
+  <script>
+    const btn = document.getElementById("miniGameBtn");
+    const popup = document.getElementById("popup");
+
+    btn.onclick = () => {
+      popup.style.display = popup.style.display === "block" ? "none" : "block";
+    };
+
+    // Cho nút di chuyển quanh web
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    btn.addEventListener("mousedown", (e) => {
+      isDragging = true;
+      offsetX = e.clientX - btn.offsetLeft;
+      offsetY = e.clientY - btn.offsetTop;
+    });
+
+    document.addEventListener("mousemove", (e) => {
+      if (isDragging) {
+        btn.style.left = e.clientX - offsetX + "px";
+        btn.style.top = e.clientY - offsetY + "px";
+      }
+    });
+
+    document.addEventListener("mouseup", () => {
+      isDragging = false;
+    });
+  </script>
 </body>
 </html>
