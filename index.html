@@ -1,132 +1,174 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>⚡ Slot 3D Style</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Slot Cao Bồi</title>
   <style>
-    * { box-sizing: border-box; margin:0; padding:0; }
     body {
-      height: 100vh;
-      background: #222;
-      font-family: sans-serif;
-      display: flex;
-      flex-direction: column;
+      margin: 0;
+      background: url('https://i.imgur.com/FNNBkAs.jpg') no-repeat center/cover;
+      font-family: 'Georgia', serif;
       color: #fff;
     }
-    .header {
-      background: #111;
-      padding: 8px;
-      text-align: center;
-      font-size: 14px;
-      border-bottom: 2px solid #444;
-    }
-    .multiplier {
-      background: #442E1B;
+    .game-container {
+      max-width: 480px;
+      margin: auto;
       padding: 10px;
-      font-size: 16px;
       text-align: center;
-      color: #FCF5E5;
-      border-bottom: 2px solid #C59C66;
-      box-shadow: inset 0 4px 6px rgba(0,0,0,0.5);
     }
-    .reels {
+    .balance-bar {
+      display: flex;
+      justify-content: space-between;
+      background: rgba(0,0,0,0.6);
+      padding: 8px 12px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .slot-machine {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 6px;
-      padding: 6px;
-      flex-grow: 1;
-      background: #3C2614;
-      box-shadow: inset 0 0 20px #000;
+      grid-template-rows: repeat(3, 80px);
+      gap: 5px;
+      background: #5c3d1c;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      box-shadow: 0 0 10px #000;
     }
-    .reels .cell {
-      background: #FCF5E5;
-      border: 2px solid #C59C66;
+    .symbol {
+      background: #fff3;
       border-radius: 6px;
-      font-size: 20px;
-      color: #3C2614;
       display: flex;
       align-items: center;
       justify-content: center;
-      aspect-ratio: 1/1;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.6);
-    }
-    .feature {
-      background: #442E1B;
-      padding: 8px;
-      text-align: center;
-      color: #FCF5E5;
-      font-size: 16px;
-      border-top: 2px solid #C59C66;
-      border-bottom: 2px solid #C59C66;
-      box-shadow: inset 0 4px 6px rgba(0,0,0,0.5);
+      font-size: 28px;
+      font-weight: bold;
     }
     .controls {
-      background: #2E1D0F;
-      padding: 10px;
       display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .moneyRow {
-      display: flex;
-      justify-content: space-around;
-      font-size: 14px;
-    }
-    .money {
-      background: #FFC720;
-      color: #000;
-      padding: 6px 10px;
-      border: 2px solid #000;
-      border-radius: 4px;
-      font-weight: bold;
-      box-shadow: inset 0 0 4px #000;
-    }
-    .btnRow {
-      display: flex;
-      justify-content: center;
+      justify-content: space-between;
+      margin-top: 10px;
       align-items: center;
-      gap: 12px;
     }
     .btn {
-      background: #FFC720;
+      background: #e09c3d;
       color: #000;
-      border: 2px solid #000;
-      border-radius: 6px;
-      padding: 8px 12px;
       font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      padding: 10px 15px;
+      border-radius: 50%;
       cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      box-shadow: 0 2px 4px #000;
     }
-    .btn svg {
-      width: 18px;
-      height: 18px;
+    .btn:hover {
+      transform: scale(1.1);
+    }
+    .big-button {
+      border-radius: 50%;
+      font-size: 24px;
+      width: 60px;
+      height: 60px;
     }
   </style>
 </head>
 <body>
-  <div class="header">m.x1skf.com/135/index.html?… (Slot)</div>
-  <div class="multiplier">×5 | ×12 | ×1024 | ×1 | ×2 | ×4</div>
-  <div class="reels">
-    <!-- 10 ô -->
-    <div class="cell">A</div><div class="cell">Q</div><div class="cell">K</div><div class="cell">J</div><div class="cell">10</div>
-    <div class="cell">9</div><div class="cell">J</div><div class="cell">K</div><div class="cell">A</div><div class="cell">Q</div>
-  </div>
-  <div class="feature">Mua tính năng | Vòng quay miễn phí</div>
-  <div class="controls">
-    <div class="moneyRow">
-      <div class="money">₫0.16</div><div class="money">₫1.20</div><div class="money">₫0.00</div>
+  <div class="game-container">
+    <div class="balance-bar">
+      <div>Số dư: <b id="balance">₫0.16</b></div>
+      <div>Cược: <b id="bet">₫1.20</b></div>
+      <div>Thắng: <b id="win">₫0.00</b></div>
     </div>
-    <div class="btnRow">
-      <div class="btn">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#000" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 6A8 8 0 006.582 9M20 20v-5h-.581M4.063 15A8 8 0 0017.418 6"/></svg>
-        QUAY
-      </div>
-      <div class="btn">AUTO</div>
+
+    <div class="slot-machine" id="slot">
+      <!-- Các ô slot -->
+    </div>
+
+    <div class="controls">
+      <div class="btn" onclick="changeBet(-0.2)">–</div>
+      <div class="btn big-button" onclick="spin()">⟳</div>
+      <div class="btn" onclick="changeBet(0.4)">+</div>
+      <div class="btn" onclick="autoSpin()">AUTO</div>
     </div>
   </div>
+
+  <script>
+    const symbols = ["A", "Q", "J", "W", "SCATTER"];
+    const slot = document.getElementById("slot");
+    let balance = 0.16, bet = 1.2, win = 0.00;
+    let autoMode = false;
+
+    function renderSlotGrid(grid = []) {
+      slot.innerHTML = "";
+      for (let i = 0; i < 15; i++) {
+        const sym = grid[i] || symbols[Math.floor(Math.random() * symbols.length)];
+        const div = document.createElement("div");
+        div.className = "symbol";
+        div.textContent = sym;
+        slot.appendChild(div);
+      }
+    }
+
+    function updateDisplay() {
+      document.getElementById("balance").innerText = `₫${balance.toFixed(2)}`;
+      document.getElementById("bet").innerText = `₫${bet.toFixed(2)}`;
+      document.getElementById("win").innerText = `₫${win.toFixed(2)}`;
+    }
+
+    function changeBet(amount) {
+      bet = Math.max(0.2, bet + amount);
+      updateDisplay();
+    }
+
+    function spin() {
+      if (balance < bet) return alert("Không đủ tiền!");
+      balance -= bet;
+      win = 0;
+
+      // Tạo 5x3 ngẫu nhiên
+      const grid = Array.from({ length: 15 }, () =>
+        symbols[Math.floor(Math.random() * symbols.length)]
+      );
+
+      renderSlotGrid(grid);
+
+      // Tính thắng nếu có 3 biểu tượng giống nhau liên tiếp theo hàng ngang
+      for (let r = 0; r < 3; r++) {
+        const row = grid.slice(r * 5, r * 5 + 5);
+        let counts = {};
+        row.forEach(sym => counts[sym] = (counts[sym] || 0) + 1);
+
+        for (let [sym, count] of Object.entries(counts)) {
+          if (count >= 3) {
+            let reward = 0;
+            if (sym === "A") reward = 0.2;
+            else if (sym === "J") reward = 0.8;
+            else if (sym === "W") reward = 1.2;
+            else if (sym === "SCATTER") {
+              reward = 0;
+              alert("Bạn trúng SCATTER – quay miễn phí!");
+              // TODO: thêm quay miễn phí ở đây
+            }
+            win += reward * bet;
+          }
+        }
+      }
+
+      balance += win;
+      updateDisplay();
+    }
+
+    function autoSpin() {
+      autoMode = !autoMode;
+      if (autoMode) {
+        const interval = setInterval(() => {
+          if (!autoMode) return clearInterval(interval);
+          spin();
+        }, 2000);
+      }
+    }
+
+    renderSlotGrid(); // Hiển thị ban đầu
+    updateDisplay();
+  </script>
 </body>
 </html>
