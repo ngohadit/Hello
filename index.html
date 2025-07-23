@@ -1,187 +1,121 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Vương 79 Club</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wild West Slot</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
-      font-family: 'Playfair Display', serif;
-      background-image: url('https://i.postimg.cc/zvYGwVbz/pngtree-full-casino-on-a-cruise-ship-picture-image-2478882.png');
+      background: url('https://i.postimg.cc/zvYGwVbz/pngtree-full-casino-on-a-cruise-ship-picture-image-2478882.png') no-repeat center center;
       background-size: cover;
-      background-position: center;
-      overflow: hidden;
-    }
-    .title {
-      text-align: center;
-      padding-top: 20px;
-      font-size: 48px;
-      font-weight: bold;
-      color: gold;
-      text-shadow: 2px 2px 6px #000, 0 0 10px gold;
-    }
-    .subtitle {
-      text-align: center;
-      font-size: 20px;
-      color: gold;
-      text-shadow: 1px 1px 5px black, 0 0 5px gold;
-      margin-bottom: 20px;
-    }
-
-    /* Nút mini game */
-    #miniGameButton {
-      position: absolute;
-      top: 150px;
-      left: 20px;
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      cursor: move;
-      background: conic-gradient(
-        orange 0deg 45deg,
-        black 45deg 90deg,
-        orange 90deg 135deg,
-        black 135deg 180deg,
-        orange 180deg 225deg,
-        black 225deg 270deg,
-        orange 270deg 315deg,
-        black 315deg 360deg
-      );
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      font-size: 12px;
-      font-weight: bold;
-      color: white;
-      border: 2px solid black;
-      user-select: none;
-    }
-    #miniGameButton span {
-      white-space: pre-line;
-    }
-
-    /* Popup mới là hình tròn chia 3 phần */
-    #miniGamePopup {
-      display: none;
-      position: absolute;
-      top: 250px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      background: conic-gradient(
-        gold 0deg 120deg,
-        black 120deg 240deg,
-        gold 240deg 360deg
-      );
-      border: 4px solid black;
-      box-shadow: 0 0 20px gold;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
       font-family: 'Playfair Display', serif;
-      z-index: 1000;
+      color: #fff;
     }
-
-    .game-section {
-      position: absolute;
+    .game-container {
       width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      max-width: 480px;
+      margin: auto;
+      padding-top: 40px;
+    }
+    .top-panel {
+      background: #5e3e1b;
+      border: 3px solid #c59c66;
+      border-radius: 12px;
       text-align: center;
-      font-size: 16px;
-      color: gold;
-      font-weight: bold;
-      text-shadow: 0 0 5px black, 0 0 10px gold;
-    }
-
-    .game-section span {
-      position: absolute;
-    }
-
-    .tx { transform: rotate(-60deg) translate(50px); }
-    .slot { transform: rotate(60deg) translate(50px); }
-    .xd { transform: rotate(180deg) translate(50px); }
-
-    .close-btn {
-      position: absolute;
-      top: 5px;
-      right: 8px;
+      padding: 10px;
       font-size: 20px;
-      color: black;
-      cursor: pointer;
+      box-shadow: 0 0 10px gold;
+      margin-bottom: 10px;
+    }
+    .slot-reels {
+      background: #3c2614;
+      border-radius: 8px;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      min-height: 220px;
+      box-shadow: inset 0 0 10px #000;
+    }
+    .slot-item {
+      background: #fff2d5;
+      border: 2px solid #a06700;
+      border-radius: 6px;
+      text-align: center;
+      padding: 15px 0;
+      color: #3c2614;
+      font-weight: bold;
+      font-size: 24px;
+    }
+    .bottom-panel {
+      background: #5e3e1b;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px;
+      box-shadow: 0 0 10px #000 inset;
+      font-size: 16px;
+    }
+    .btn-circle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #c59c66;
+      border: 2px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 0 10px gold;
+    }
+    .btn-yellow {
+      background: #ffcc00;
+      color: #000;
+      border: 2px solid #000;
+      font-weight: bold;
+      padding: 4px 8px;
+      border-radius: 4px;
     }
   </style>
 </head>
 <body>
 
-  <div class="title">Vương 79 Club</div>
-  <div class="subtitle">Chào mừng đến với thế giới 79 club</div>
+  <div class="game-container">
+    <div class="top-panel">
+      x5 | x12 | x1024 | x1 | x2 | x4
+    </div>
 
-  <!-- Nút tròn mini game -->
-  <div id="miniGameButton">
-    <span>Mini<br>Game</span>
+    <div class="slot-reels">
+      <div class="slot-item">A</div>
+      <div class="slot-item">Q</div>
+      <div class="slot-item">K</div>
+      <div class="slot-item">J</div>
+      <div class="slot-item">A</div>
+      <div class="slot-item">Q</div>
+      <div class="slot-item">K</div>
+      <div class="slot-item">J</div>
+      <div class="slot-item">A</div>
+      <div class="slot-item">Q</div>
+    </div>
+
+    <div class="top-panel" style="margin-top: 10px;">
+      Tính năng mua | Vòng quay miễn phí
+    </div>
+
+    <div class="bottom-panel">
+      <div class="btn-yellow">₫0.16</div>
+      <div class="btn-yellow">₫1.20</div>
+      <div class="btn-yellow">₫0.00</div>
+      <div class="btn-circle">⟳</div>
+      <div class="btn-yellow">AUTO</div>
+    </div>
   </div>
-
-  <!-- Popup mini game mới -->
-  <div id="miniGamePopup">
-    <div class="close-btn" onclick="togglePopup(false)">✕</div>
-    <div class="game-section"><span class="tx">Tài Xỉu</span></div>
-    <div class="game-section"><span class="slot">Slot</span></div>
-    <div class="game-section"><span class="xd">Xóc Đĩa</span></div>
-  </div>
-
-  <script>
-    const btn = document.getElementById('miniGameButton');
-    const popup = document.getElementById('miniGamePopup');
-
-    btn.onclick = () => togglePopup(true);
-    function togglePopup(show) {
-      popup.style.display = show ? 'flex' : 'none';
-    }
-
-    // Drag move button
-    let isDragging = false, offsetX = 0, offsetY = 0;
-    btn.addEventListener('mousedown', function(e) {
-      isDragging = true;
-      offsetX = e.clientX - btn.offsetLeft;
-      offsetY = e.clientY - btn.offsetTop;
-    });
-    document.addEventListener('mousemove', function(e) {
-      if (isDragging) {
-        btn.style.left = (e.clientX - offsetX) + 'px';
-        btn.style.top = (e.clientY - offsetY) + 'px';
-      }
-    });
-    document.addEventListener('mouseup', function() {
-      isDragging = false;
-    });
-
-    // Touch support
-    btn.addEventListener('touchstart', function(e) {
-      isDragging = true;
-      const touch = e.touches[0];
-      offsetX = touch.clientX - btn.offsetLeft;
-      offsetY = touch.clientY - btn.offsetTop;
-    });
-    document.addEventListener('touchmove', function(e) {
-      if (isDragging) {
-        const touch = e.touches[0];
-        btn.style.left = (touch.clientX - offsetX) + 'px';
-        btn.style.top = (touch.clientY - offsetY) + 'px';
-      }
-    });
-    document.addEventListener('touchend', function() {
-      isDragging = false;
-    });
-  </script>
 
 </body>
 </html>
