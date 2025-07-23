@@ -16,18 +16,21 @@
     }
     .title {
       text-align: center;
-      padding: 20px 0 5px;
+      padding-top: 20px;
       font-size: 48px;
       font-weight: bold;
       color: gold;
-      text-shadow: 2px 2px 4px black;
+      text-shadow: 2px 2px 6px #000, 0 0 10px gold;
     }
     .subtitle {
       text-align: center;
       font-size: 20px;
       color: gold;
-      text-shadow: 1px 1px 3px black;
+      text-shadow: 1px 1px 5px black, 0 0 5px gold;
+      margin-bottom: 20px;
     }
+
+    /* Nút mini game */
     #miniGameButton {
       position: absolute;
       top: 150px;
@@ -54,38 +57,63 @@
       font-weight: bold;
       color: white;
       border: 2px solid black;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
       user-select: none;
     }
     #miniGameButton span {
       white-space: pre-line;
-      font-family: 'Playfair Display', serif;
     }
 
+    /* Popup mới là hình tròn chia 3 phần */
     #miniGamePopup {
       display: none;
       position: absolute;
-      top: 100px;
+      top: 250px;
       left: 50%;
       transform: translateX(-50%);
-      width: 300px;
-      padding: 20px;
-      background: gold;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: conic-gradient(
+        gold 0deg 120deg,
+        black 120deg 240deg,
+        gold 240deg 360deg
+      );
       border: 4px solid black;
-      border-radius: 15px;
-      text-align: center;
-      z-index: 1000;
+      box-shadow: 0 0 20px gold;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       font-family: 'Playfair Display', serif;
+      z-index: 1000;
     }
-    #miniGamePopup h2 {
-      margin-bottom: 15px;
-      font-size: 22px;
-      color: black;
+
+    .game-section {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 16px;
+      color: gold;
+      font-weight: bold;
+      text-shadow: 0 0 5px black, 0 0 10px gold;
     }
+
+    .game-section span {
+      position: absolute;
+    }
+
+    .tx { transform: rotate(-60deg) translate(50px); }
+    .slot { transform: rotate(60deg) translate(50px); }
+    .xd { transform: rotate(180deg) translate(50px); }
+
     .close-btn {
       position: absolute;
       top: 5px;
-      right: 10px;
+      right: 8px;
       font-size: 20px;
       color: black;
       cursor: pointer;
@@ -97,18 +125,17 @@
   <div class="title">Vương 79 Club</div>
   <div class="subtitle">Chào mừng đến với thế giới 79 club</div>
 
-  <!-- Mini Game Button -->
+  <!-- Nút tròn mini game -->
   <div id="miniGameButton">
     <span>Mini<br>Game</span>
   </div>
 
-  <!-- Mini Game Popup -->
+  <!-- Popup mini game mới -->
   <div id="miniGamePopup">
     <div class="close-btn" onclick="togglePopup(false)">✕</div>
-    <h2>Chọn Mini Game</h2>
-    <button style="margin:5px;">Tài Xỉu</button>
-    <button style="margin:5px;">Slot</button>
-    <button style="margin:5px;">Xóc đĩa</button>
+    <div class="game-section"><span class="tx">Tài Xỉu</span></div>
+    <div class="game-section"><span class="slot">Slot</span></div>
+    <div class="game-section"><span class="xd">Xóc Đĩa</span></div>
   </div>
 
   <script>
@@ -117,7 +144,7 @@
 
     btn.onclick = () => togglePopup(true);
     function togglePopup(show) {
-      popup.style.display = show ? 'block' : 'none';
+      popup.style.display = show ? 'flex' : 'none';
     }
 
     // Drag move button
