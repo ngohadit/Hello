@@ -3,171 +3,168 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Slot Game</title>
+  <title>Slot Vàng Đen</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/howler"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
   <style>
     body {
-      background: #1e1e1e;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
+      background: linear-gradient(145deg, #000000, #1a1a1a);
+      font-family: 'Orbitron', sans-serif;
+    }
+    .slot-symbol {
+      font-size: 2rem;
+      color: gold;
+      text-shadow: 0 0 8px yellow, 0 0 16px orange;
+    }
+    .scatter {
+      font-size: 1.8rem;
+      color: #ffcc00;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
-    .slot-container {
-      margin-top: 20px;
-      background: #111;
-      padding: 10px;
-      border: 3px solid #ffcc00;
-      border-radius: 10px;
+    .scatter span {
+      font-size: 0.7rem;
+      color: white;
     }
-    .slot-row {
-      display: flex;
-      justify-content: center;
-      margin: 5px 0;
+    .glow {
+      animation: glow 1s infinite alternate;
     }
-    .slot-cell {
-      width: 60px;
-      height: 60px;
-      margin: 0 5px;
-      background: #333;
-      border: 2px solid #444;
-      border-radius: 10px;
-      font-size: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-weight: bold;
-    }
-    .controls {
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .btn {
-      padding: 10px 15px;
-      background: #ffcc00;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .btn:disabled {
-      background: #888;
-      cursor: not-allowed;
-    }
-    .status {
-      margin-top: 10px;
-      text-align: center;
-    }
-    #message {
-      margin-top: 10px;
-      color: #ff4444;
-      font-weight: bold;
+    @keyframes glow {
+      from { text-shadow: 0 0 8px gold; }
+      to { text-shadow: 0 0 18px orange, 0 0 24px yellow; }
     }
   </style>
 </head>
-<body>
-  <h2>🎰 Slot Mini</h2>
-  <div class="slot-container" id="slot">
-    <div class="slot-row" id="row1"></div>
-    <div class="slot-row" id="row2"></div>
-    <div class="slot-row" id="row3"></div>
-  </div>
+<body class="flex items-center justify-center min-h-screen p-4">
 
-  <div class="controls">
-    <button class="btn" onclick="changeBet(-0.2)">-</button>
-    <div><strong>Cược:</strong> <span id="bet">1.00</span> VND</div>
-    <button class="btn" onclick="changeBet(0.2)">+</button>
-    <button class="btn" onclick="spin()">QUAY</button>
-    <button class="btn" onclick="autoSpin()">AUTO</button>
-  </div>
+  <div class="w-full max-w-[400px] bg-black border-4 border-yellow-400 rounded-xl p-4 shadow-lg">
+    <!-- Thanh trạng thái -->
+    <div class="flex justify-between text-yellow-300 text-sm mb-2">
+      <div>Số dư: <span id="balance">10.00</span> VND</div>
+      <div>Thắng: <span id="win">0.00</span></div>
+    </div>
 
-  <div class="status">
-    💰 <strong>Số dư:</strong> <span id="balance">10.00</span> VND |
-    🏆 <strong>Thắng:</strong> <span id="win">0.00</span> VND
+    <!-- Vùng quay slot -->
+    <div id="slot" class="grid grid-cols-5 gap-2 bg-yellow-950 rounded-lg p-2 h-[240px]">
+      <!-- Các cột sẽ được JS gán vào -->
+    </div>
+
+    <!-- Nút điều khiển -->
+    <div class="flex justify-between items-center mt-4 text-white text-sm">
+      <button onclick="changeBet(-0.2)" class="bg-yellow-600 hover:bg-yellow-700 px-2 py-1 rounded">-</button>
+      <div>Đặt: <span id="bet">1.00</span> VND</div>
+      <button onclick="changeBet(0.2)" class="bg-yellow-600 hover:bg-yellow-700 px-2 py-1 rounded">+</button>
+    </div>
+
+    <button onclick="spin()" class="w-full mt-4 py-2 bg-yellow-500 text-black font-bold rounded hover:bg-yellow-400">QUAY</button>
+
+    <div id="alert" class="text-center mt-3 text-red-500 hidden">Không đủ số dư!</div>
   </div>
-  <div id="message"></div>
 
   <script>
-    const symbols = ['A', 'J', 'W', 'K', 'Q', '7'];
-    let balance = 10.0;
+    const symbols = ['A', 'J', 'W', 'scatter'];
+    let balance = parseFloat(localStorage.getItem("slot_balance")) || 10.00;
     let bet = 1.00;
-    let auto = false;
 
-    function getRandomSymbol() {
-      return symbols[Math.floor(Math.random() * symbols.length)];
-    }
-
-    function updateUI() {
-      document.getElementById('balance').textContent = balance.toFixed(2);
-      document.getElementById('bet').textContent = bet.toFixed(2);
-      document.getElementById('win').textContent = '0.00';
-      document.getElementById('message').textContent = '';
-    }
+    const slotContainer = document.getElementById("slot");
+    const balanceEl = document.getElementById("balance");
+    const winEl = document.getElementById("win");
+    const alertEl = document.getElementById("alert");
+    const spinSound = new Howl({ src: ['https://cdn.pixabay.com/download/audio/2022/03/15/audio_2f00c1ddea.mp3?filename=slot-machine-spin-9932.mp3'] });
+    const winSound = new Howl({ src: ['https://cdn.pixabay.com/download/audio/2022/10/04/audio_8eebc5d040.mp3?filename=short-success-sound-gaming-113946.mp3'] });
 
     function changeBet(amount) {
       bet = Math.max(0.2, bet + amount);
-      document.getElementById('bet').textContent = bet.toFixed(2);
+      document.getElementById("bet").innerText = bet.toFixed(2);
+    }
+
+    function renderSlot(result = null) {
+      slotContainer.innerHTML = '';
+      for (let col = 0; col < 5; col++) {
+        const colDiv = document.createElement("div");
+        colDiv.className = "flex flex-col items-center gap-2";
+        for (let row = 0; row < 3; row++) {
+          const sym = result ? result[col][row] : symbols[Math.floor(Math.random() * symbols.length)];
+          const el = document.createElement("div");
+          el.className = "slot-symbol w-12 h-12 bg-black flex items-center justify-center rounded border-2 border-yellow-400";
+          if (sym === 'scatter') {
+            el.innerHTML = `<div class="scatter">💰<span>SCATTER</span></div>`;
+          } else {
+            el.textContent = sym;
+          }
+          colDiv.appendChild(el);
+        }
+        slotContainer.appendChild(colDiv);
+      }
     }
 
     function spin() {
       if (balance < bet) {
-        document.getElementById('message').textContent = '❌ Tài khoản không đủ số dư!';
+        alertEl.classList.remove("hidden");
         return;
       }
+      alertEl.classList.add("hidden");
 
-      balance -= bet;
-      let win = 0;
-
-      const rows = [[], [], []];
-      for (let r = 0; r < 3; r++) {
-        let row = [];
-        for (let c = 0; c < 5; c++) {
-          row.push(getRandomSymbol());
+      spinSound.play();
+      const result = [];
+      for (let col = 0; col < 5; col++) {
+        const column = [];
+        for (let row = 0; row < 3; row++) {
+          column.push(symbols[Math.floor(Math.random() * symbols.length)]);
         }
-        rows[r] = row;
+        result.push(column);
       }
 
-      // Cập nhật giao diện
-      for (let i = 0; i < 3; i++) {
-        const rowDiv = document.getElementById(`row${i+1}`);
-        rowDiv.innerHTML = '';
-        for (let j = 0; j < 5; j++) {
-          const cell = document.createElement('div');
-          cell.className = 'slot-cell';
-          cell.textContent = rows[i][j];
-          rowDiv.appendChild(cell);
-        }
-      }
+      renderSlot(result);
+      animateSpin();
 
-      // Kiểm tra trúng (3 ký tự giống nhau liên tiếp từ trái sang phải)
-      for (let i = 0; i < 3; i++) {
-        let line = rows[i];
-        if (line[0] === line[1] && line[1] === line[2]) {
-          if (line[0] === 'A') win += bet * 0.2;
-          if (line[0] === 'J') win += bet * 0.8;
-          if (line[0] === 'W') win += bet * 1.2;
-        }
-      }
-
-      balance += win;
-      document.getElementById('win').textContent = win.toFixed(2);
-      document.getElementById('balance').textContent = balance.toFixed(2);
-
-      if (auto) {
-        setTimeout(spin, 1500);
-      }
+      setTimeout(() => {
+        const winAmount = calculateWin(result);
+        balance -= bet;
+        balance += winAmount;
+        localStorage.setItem("slot_balance", balance.toFixed(2));
+        balanceEl.textContent = balance.toFixed(2);
+        winEl.textContent = winAmount.toFixed(2);
+        if (winAmount > 0) winSound.play();
+      }, 1000);
     }
 
-    function autoSpin() {
-      auto = !auto;
-      if (auto) spin();
+    function calculateWin(result) {
+      let totalWin = 0;
+      for (let row = 0; row < 3; row++) {
+        const line = [];
+        for (let col = 0; col < 5; col++) {
+          line.push(result[col][row]);
+        }
+        const first = line[0];
+        if (line.every(s => s === first)) {
+          switch (first) {
+            case 'A': totalWin += bet * 0.2; break;
+            case 'J': totalWin += bet * 0.8; break;
+            case 'W': totalWin += bet * 1.2; break;
+            case 'scatter': totalWin += bet * 2.0; break;
+          }
+        }
+      }
+      return totalWin;
     }
 
-    updateUI();
+    function animateSpin() {
+      const symbols = document.querySelectorAll(".slot-symbol");
+      gsap.fromTo(symbols, { rotateX: 0 }, {
+        rotateX: 360,
+        duration: 1,
+        ease: "power2.inOut",
+        stagger: 0.05
+      });
+    }
+
+    // Khởi tạo
+    balanceEl.textContent = balance.toFixed(2);
+    document.getElementById("bet").innerText = bet.toFixed(2);
+    renderSlot();
   </script>
 </body>
 </html>
